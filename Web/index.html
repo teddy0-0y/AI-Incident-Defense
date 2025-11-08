@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Incident Analysis and Defense Mapping Database</title>
+    <style>
+      :root {
+        --primary-color: #007bff;
+        --secondary-color: #f8f9fa;
+        --border-color: #dee2e6;
+        --text-color: #212529;
+        --card-bg: #e9f7ff;
+        --card-border: #b3d7ff;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        display: flex;
+        height: 100vh;
+        color: var(--text-color);
+        background-color: #fff;
+      }
+
+      /* --- Left Panel (List and Search) --- */
+      #left-panel {
+        width: 350px;
+        display: flex;
+        flex-direction: column;
+        border-right: 2px solid var(--border-color);
+        background-color: var(--secondary-color);
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+        flex-shrink: 0;
+      }
+      #search-box {
+        padding: 15px;
+        border-bottom: 1px solid var(--border-color);
+      }
+      #search-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-top: 10px;
+        font-size: 1em;
+      }
+      #incident-list-container {
+        flex-grow: 1;
+        overflow-y: auto;
+      }
+      #incident-list {
+        padding: 0 15px;
+      }
+      .incident-item {
+        padding: 10px 5px;
+        border-bottom: 1px dotted #ccc;
+        cursor: pointer;
+        font-size: 0.95em;
+        transition: background-color 0.2s;
+      }
+      .incident-item:hover {
+        background-color: #e2e6ea;
+      }
+      .incident-item.active {
+        background-color: var(--primary-color);
+        color: white;
+      }
+
+      /* --- Right Panel (Details) --- */
+      #incident-detail {
+        flex-grow: 1;
+        padding: 30px;
+        overflow-y: auto;
+      }
+      #detail-title {
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+      #detail-report {
+        background-color: #fcfcfc;
+        border-left: 3px solid #ccc;
+        padding: 15px;
+        white-space: pre-wrap;
+      }
+      .info-section {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+      }
+      .info-item {
+        width: 50%;
+        margin-bottom: 10px;
+      }
+      .info-item strong {
+        display: block;
+        color: #6c757d;
+      }
+
+      /* --- Defense Card --- */
+      #defense-match-list {
+        margin-top: 25px;
+        border-top: 1px solid var(--border-color);
+        padding-top: 20px;
+      }
+      .defense-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--card-border);
+        padding: 15px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: box-shadow 0.2s, background-color 0.2s;
+      }
+      .defense-card:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #d8eaff;
+      }
+      .defense-card strong {
+        color: var(--primary-color);
+      }
+
+      /* --- Modal (Pop-up) --- */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.6);
+      }
+      .modal-content {
+        background-color: #ffffff;
+        margin: 5% auto;
+        padding: 30px;
+        border-radius: 8px;
+        width: 70%;
+        max-height: 90%;
+        overflow-y: auto;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+      }
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 32px;
+        font-weight: bold;
+      }
+      .close:hover,
+      .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="left-panel">
+      <div id="search-box">
+        <h2>🔎 AI Incident Database</h2>
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search by Title, Report Text, or MITRE Classification..."
+        />
+      </div>
+      <div id="incident-list-container">
+        <div id="incident-list"></div>
+      </div>
+    </div>
+
+    <div id="incident-detail">
+      <h2 id="detail-title">Please select an AI Incident from the left.</h2>
+
+      <div class="info-section">
+        <div class="info-item">
+          <strong>Incident ID:</strong> <span id="detail-id"></span>
+        </div>
+        <div class="info-item">
+          <strong>MITRE Classification:</strong> <span id="detail-mitre"></span>
+        </div>
+        <div class="info-item">
+          <strong>Deployer:</strong> <span id="detail-deployer"></span>
+        </div>
+        <div class="info-item">
+          <strong>Harmed Parties:</strong> <span id="detail-harmed"></span>
+        </div>
+      </div>
+
+      <h3>📝 Incident Overview (Report Excerpt)</h3>
+      <p id="detail-report">The selected incident details will appear here.</p>
+
+      <div id="defense-match-list">
+        <h3>🛡️ LLM-Suggested Defenses (AIDEFEND)</h3>
+        <p>Select an incident to view the defenses mapped by the LLM.</p>
+      </div>
+    </div>
+
+    <div id="defense-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 id="modal-title" style="color: var(--primary-color)"></h3>
+        <div class="info-section" style="margin-bottom: 20px">
+          <div class="info-item">
+            <strong>ID:</strong> <span id="modal-id"></span>
+          </div>
+          <div class="info-item">
+            <strong>Tactic:</strong> <span id="modal-tactic"></span>
+          </div>
+        </div>
+        <h4>Full Description:</h4>
+        <p id="modal-description"></p>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

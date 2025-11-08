@@ -1,0 +1,122 @@
+[
+    {
+        "incident_id":1,
+        "matched_defense_ids":"AID-D-003.001, AID-H-001, AID-D-007, AID-D-008"
+    },
+    {
+        "incident_id":2,
+        "matched_defense_ids":"AID-M-004, AID-M-007, AID-H-018, AID-I-005"
+    },
+    {
+        "incident_id":3,
+        "matched_defense_ids":"AID-M-004, AID-M-003, AID-M-006, AID-D-002"
+    },
+    {
+        "incident_id":4,
+        "matched_defense_ids":"AID-M-004, AID-M-006, AID-H-018, AID-H-001"
+    },
+    {
+        "incident_id":5,
+        "matched_defense_ids":"AID-M-004, AID-H-018, AID-D-002, AID-I-005, AID-H-009"
+    },
+    {
+        "incident_id":6,
+        "matched_defense_ids":"AID-H-002, AID-D-003, AID-I-003, AID-M-004"
+    },
+    {
+        "incident_id":7,
+        "matched_defense_ids":"AID-D-011.002, AID-H-018, AID-D-010, AID-M-003.004"
+    },
+    {
+        "incident_id":8,
+        "matched_defense_ids":"AID-M-004, AID-M-003, AID-D-002, AID-D-003"
+    },
+    {
+        "incident_id":9,
+        "matched_defense_ids":"AID-M-004, AID-M-003, AID-M-007, AID-D-002"
+    },
+    {
+        "incident_id":10,
+        "matched_defense_ids":"AID-M-007, AID-M-006, AID-H-013, AID-D-003"
+    },
+    {
+        "incident_id":11,
+        "matched_defense_ids":"AID-M-004, AID-H-002.001, AID-M-003.001, AID-D-002"
+    },
+    {
+        "incident_id":12,
+        "matched_defense_ids":"AID-H-002.001, AID-M-003.001, AID-M-002.003, AID-R-001.002"
+    },
+    {
+        "incident_id":13,
+        "matched_defense_ids":"AID-H-002.001, AID-M-003, AID-D-002, AID-M-004"
+    },
+    {
+        "incident_id":14,
+        "matched_defense_ids":"AID-H-002.001, AID-D-002, AID-D-003, AID-M-003.002, AID-R-001.002"
+    },
+    {
+        "incident_id":15,
+        "matched_defense_ids":"AID-D-002, AID-D-003, AID-D-004.003, AID-M-003"
+    },
+    {
+        "incident_id":16,
+        "matched_defense_ids":"AID-H-002.001, AID-D-003.001, AID-M-003, AID-M-004"
+    },
+    {
+        "incident_id":17,
+        "matched_defense_ids":"AID-D-003, AID-H-006, AID-H-002.001, AID-M-003"
+    },
+    {
+        "incident_id":18,
+        "matched_defense_ids":"AID-M-003.002, AID-D-002, AID-D-003, AID-H-006"
+    },
+    {
+        "incident_id":19,
+        "matched_defense_ids":"AID-D-003.001, AID-M-003.002, AID-M-004, AID-H-013.001"
+    },
+    {
+        "incident_id":20,
+        "matched_defense_ids":"AID-M-007, AID-M-006, AID-D-002, AID-I-005, AID-H-001"
+    },
+    {
+        "incident_id":21,
+        "matched_defense_ids":"AID-M-003, AID-M-007, AID-M-004, AID-H-001"
+    },
+    {
+        "incident_id":22,
+        "matched_defense_ids":"AID-M-007, AID-H-013, AID-D-003, AID-M-006"
+    },
+    {
+        "incident_id":23,
+        "matched_defense_ids":"AID-M-004, AID-M-007, AID-H-018, AID-M-006, AID-M-003"
+    },
+    {
+        "incident_id":24,
+        "matched_defense_ids":"AID-M-007, AID-M-004, AID-M-006, AID-I-005, AID-H-004"
+    },
+    {
+        "incident_id":25,
+        "matched_defense_ids":"AID-D-011.002, AID-D-002, AID-M-003.002, AID-D-005.004, AID-M-007"
+    },
+    {
+        "incident_id":26,
+        "matched_defense_ids":"AID-H-001, AID-D-001, AID-H-015, AID-M-004"
+    },
+    {
+        "incident_id":27,
+        "matched_defense_ids":"AID-D-002, AID-M-003, AID-M-006, AID-H-001"
+    },
+    {
+        "incident_id":28,
+        "matched_defense_ids":"AID-D-001, AID-D-002, AID-D-005, AID-H-002, AID-M-003.002"
+    },
+    {
+        "incident_id":29,
+        "matched_defense_ids":"AID-H-002.001, AID-M-003.003, AID-M-004, AID-D-002"
+    },
+    {
+        "incident_id":30,
+        "matched_defense_ids":"AID-M-004, AID-M-007, AID-M-006, AID-M-003"
+    }
+]
