@@ -29,21 +29,19 @@ The core of this project is its data pipeline, which processes raw data into a f
 * **Frontend:** HTML5, CSS3, Vanilla JavaScript
 * **Local Server:** Python's built-in `http.server` module
 
-## 🏁 Getting Started
 
-Follow these steps to run the complete project on your local machine.
+## 📂 Key Files (核心檔案)
 
-### Prerequisites
+* `README.md`: (This file) 您正在閱讀的檔案。
+* `generate_mapping.py`: **(第一步)** 用於呼叫 Gemini API 並生成防禦配對的 Python 腳本。
+* `convert_to_json.py`: **(第二步)** 用於將所有 CSV 轉換為網頁所需 JSON 格式的 Python 腳本。
+* `index.html`: 網頁介面的主要 (也是唯一) HTML 檔案。
+* `app.js`: 處理搜尋、數據載入和彈窗功能的 前端 JavaScript 邏輯。
+* `incidents.json`: (由腳本生成) 用於網頁的 AI 事故數據。
+* `defenses.json`: (由腳本生成) 用於網頁的 AIDEFEND 防禦清單數據。
+* `mapping.json`: (由腳本生成) LLM 產生的事故與防禦配對數據。
 
-* Python 3.x
-* A Google Gemini API Key
-* The following source CSV files in your root directory:
-    * `merged_incident_data.csv`
-    * `AI_Defense_Techniques.csv`
+## 🙏 Acknowledgements (致謝)
 
-### 1. Install Dependencies
-
-Install the required Python libraries.
-
-```bash
-pip install pandas google-genai
+* 事故數據來源於 [AI Incident Database (AIID)](https://incidentdatabase.ai/)。
+* 防禦技術框架來源於 [AIDEFEND Framework](https://github.com/mitre-atlas/aidefend)。
