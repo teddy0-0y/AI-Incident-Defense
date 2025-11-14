@@ -30,18 +30,18 @@ The core of this project is its data pipeline, which processes raw data into a f
 * **Local Server:** Python's built-in `http.server` module
 
 
-## 📂 Key Files (核心檔案)
+## 📂 Key Files
 
-* `README.md`: (This file) 您正在閱讀的檔案。
-* `generate_mapping.py`: **(第一步)** 用於呼叫 Gemini API 並生成防禦配對的 Python 腳本。
-* `convert_to_json.py`: **(第二步)** 用於將所有 CSV 轉換為網頁所需 JSON 格式的 Python 腳本。
-* `index.html`: 網頁介面的主要 (也是唯一) HTML 檔案。
-* `app.js`: 處理搜尋、數據載入和彈窗功能的 前端 JavaScript 邏輯。
-* `incidents.json`: (由腳本生成) 用於網頁的 AI 事故數據。
-* `defenses.json`: (由腳本生成) 用於網頁的 AIDEFEND 防禦清單數據。
-* `mapping.json`: (由腳本生成) LLM 產生的事故與防禦配對數據。
+* `README.md`: (This file) You are here.
+* `generate_mapping.py`: **(Step 1)** Python script to call the Gemini API and generate defense mappings.
+* `convert_to_json.py`: **(Step 2)** Python script to convert all CSVs into the JSON format required for the web.
+* `index.html`: The main (and only) HTML file for the web interface.
+* `app.js`: The frontend JavaScript logic that handles searching, data loading, and pop-up modals.
+* `incidents.json`: (Generated) AI incident data for the website.
+* `defenses.json`: (Generated) AIDEFEND catalog data for the website.
+* `mapping.json`: (Generated) The LLM-generated mapping data.
 
-## 🙏 Acknowledgements (致謝)
+## 🙏 Acknowledgements
 
-* 事故數據來源於 [AI Incident Database (AIID)](https://incidentdatabase.ai/)。
-* 防禦技術框架來源於 [AIDEFEND Framework](https://github.com/mitre-atlas/aidefend)。
+* Incident data is sourced from the [AI Incident Database (AIID)](https://incidentdatabase.ai/).
+* Defense techniques are sourced from the [AIDEFEND Framework](https://github.com/mitre-atlas/aidefend).
