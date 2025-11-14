@@ -11,7 +11,7 @@ Usage:
 import os, re, csv
 from typing import List, Tuple
 
-# 你的檔案清單（照你剛剛提供的相對路徑）
+# Your file list (in the relative paths you provided earlier)
 FILES = [
     "../aidefense-framework/tactics/deceive.js",
     "../aidefense-framework/tactics/detect.js",
@@ -33,14 +33,14 @@ def collapse_ws(s: str) -> str:
 
 def find_array_blocks(text: str, key: str) -> List[Tuple[int, int]]:
     """
-    找到 key: [ ... ] 之中 [] 的範圍；允許 "key": [ ... ] 或 'key': [ ... ]
-    回傳 (內容起點(在'['之後), 內容終點(對應']'位置)) 清單
+    Locate the [ ... ] block for key: [ ... ].
+    Supports "key": [ ... ] or 'key': [ ... ] or key: [ ... ].
+    Returns the tuple (start_after_bracket, end_bracket_index) list.
     """
     out = []
-    # 允許有無引號的 key
     pat = rf'(["\']?){re.escape(key)}\1\s*:\s*\['
     for m in re.finditer(pat, text):
-        start = m.end()  # 在 '[' 之後
+        start = m.end()  # position right after '['
         i = start
         depth = 1
         in_single = in_double = in_back = False
@@ -69,7 +69,7 @@ def find_array_blocks(text: str, key: str) -> List[Tuple[int, int]]:
     return out
 
 def extract_top_level_objs(array_text: str) -> List[str]:
-    """從 [ ... ] 內容擷取頂層 { ... } 物件（忽略巢狀子物件）。"""
+    """Extract only top-level { ... } objects from a JS array (ignore nested child objects)."""
     objs = []
     i, L = 0, len(array_text)
     while i < L:
@@ -110,12 +110,12 @@ def extract_top_level_objs(array_text: str) -> List[str]:
     return objs
 
 def extract_str(obj_text: str, field: str) -> str:
-    """擷取字串欄位（支援 ", ', `）。"""
+    """Extract a string field (supports ", ', ` as value delimiters)."""
     pats = [
         rf'{re.escape(field)}\s*:\s*"((?:[^"\\]|\\.)*)"',
         rf"{re.escape(field)}\s*:\s*'((?:[^'\\]|\\.)*)'",
         rf'{re.escape(field)}\s*:\s*`((?:[^`\\]|\\.)*)`',
-        rf'["\']{re.escape(field)}["\']\s*:\s*"((?:[^"\\]|\\.)*)"',  # key 也有引號
+        rf'["\']{re.escape(field)}["\']\s*:\s*"((?:[^"\\]|\\.)*)"',
         rf'["\']{re.escape(field)}["\']\s*:\s*\'((?:[^\'\\]|\\.)*)\'',
         rf'["\']{re.escape(field)}["\']\s*:\s*`((?:[^`\\]|\\.)*)`',
     ]
@@ -129,14 +129,15 @@ def extract_str(obj_text: str, field: str) -> str:
                    .replace(r"\t", "\t")
                    .replace(r"\\", "\\"))
             return collapse_ws(raw)
-    # very rare: bare token
+
+    # Rare: bare token without quotes
     m2 = re.search(rf'{re.escape(field)}\s*:\s*([A-Za-z0-9_.-]+)', obj_text)
     if not m2:
         m2 = re.search(rf'["\']{re.escape(field)}["\']\s*:\s*([A-Za-z0-9_.-]+)', obj_text)
     return collapse_ws(m2.group(1)) if m2 else ""
 
 def get_tactic_name(text: str) -> str:
-    # 找到第一個 name 欄位
+    # Get the first name field defined as name: "...".
     m = re.search(r'(["\']?)name\1\s*:\s*(?P<q>["\'`])(?P<v>.*?)(?P=q)', text, flags=re.DOTALL)
     return collapse_ws(m.group("v")) if m else ""
 
@@ -144,7 +145,7 @@ def parse_one(text: str, include_sub=True):
     tactic = get_tactic_name(text)
     techniques, subs = [], []
 
-    # 找 "techniques" blocks（允許 key 有引號）
+    # Find "techniques" array blocks
     tech_blocks = find_array_blocks(text, "techniques")
     for (s, e) in tech_blocks:
         arr = text[s:e]
@@ -169,11 +170,11 @@ def parse_one(text: str, include_sub=True):
 
 def fallback_scan(text: str):
     """
-    後備方案：直接抓任何具備 id/name/description 的物件（可能會多抓，但至少不會 0 筆）。
-    只抓頂層大物件，不深入巢狀。
+    Fallback method: scan for any { ... } block containing id/name/description.
+    May catch extra objects, but ensures non-zero results.
+    Only detects top-level sized blocks (limit to avoid huge memory).
     """
     results = []
-    # 粗略掃描 { ... } 區塊（限制大小避免吃爆記憶體）
     for m in re.finditer(r"\{[^{}]{20,5000}\}", text, flags=re.DOTALL):
         block = m.group(0)
         tid = extract_str(block, "id")
@@ -195,7 +196,7 @@ def main():
         text = read_text(path)
         tactic, techs, subs = parse_one(text, include_sub=True)
 
-        # 若完全抓不到，啟用 fallback
+        # If no techniques were extracted at all, trigger fallback
         if not techs:
             fb = fallback_scan(text)
             if fb:
@@ -228,7 +229,7 @@ def main():
                 "Description": st.get("description",""),
             })
 
-    # 輸出 CSV
+    # Export CSV
     with open(OUT_PATH, "w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=[
             "Source File","Tactic","Level","Parent Technique ID",
