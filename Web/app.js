@@ -1,4 +1,4 @@
-// app.js - 增強版
+// app.js 
 
 let allIncidents = [];
 let allDefenses = {}; 
